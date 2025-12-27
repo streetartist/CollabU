@@ -124,7 +124,7 @@ class _TeamResourcesScreenState extends State<TeamResourcesScreen> {
               title: Text(res['title'] ?? ''),
               subtitle: Text(res['updated_at']?.toString().substring(0, 10) ?? ''),
               trailing: IconButton(
-                icon: const Icon(Icons.delete_outline, color: Colors.red),
+                icon: Icon(Icons.delete_outline, color: Theme.of(context).colorScheme.error),
                 onPressed: () => _confirmDelete(res['id']),
               ),
               onTap: () => setState(() { _viewMode = 'detail'; _selectedResource = res; }),
@@ -150,7 +150,7 @@ class _TeamResourcesScreenState extends State<TeamResourcesScreen> {
           const SizedBox(height: 8),
           Text(
             '更新于 ${_selectedResource?['updated_at']?.toString().substring(0, 10) ?? ''}',
-            style: TextStyle(color: Colors.grey.shade600),
+            style: TextStyle(color: Theme.of(context).textTheme.bodySmall?.color),
           ),
           const Divider(height: 24),
           MarkdownBody(
@@ -199,7 +199,7 @@ class _TeamResourcesScreenState extends State<TeamResourcesScreen> {
               return Image.network(
                 imageUrl,
                 headers: token != null ? {'Authorization': 'Bearer $token'} : null,
-                errorBuilder: (context, error, stackTrace) => const Icon(Icons.broken_image, size: 50, color: Colors.grey),
+                errorBuilder: (context, error, stackTrace) => Icon(Icons.broken_image, size: 50, color: Theme.of(context).disabledColor),
                 loadingBuilder: (context, child, loadingProgress) {
                   if (loadingProgress == null) return child;
                   return const Center(child: CircularProgressIndicator());
@@ -315,7 +315,7 @@ class _TeamResourcesScreenState extends State<TeamResourcesScreen> {
                 if (mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('删除失败')));
               }
             },
-            child: const Text('删除', style: TextStyle(color: Colors.red)),
+            child: Text('删除', style: TextStyle(color: Theme.of(context).colorScheme.error)),
           ),
         ],
       ),

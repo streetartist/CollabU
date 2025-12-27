@@ -27,10 +27,10 @@ class SectionHeader extends StatelessWidget {
           ],
           Text(
             title,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: AppTheme.textPrimary,
+              color: Theme.of(context).textTheme.titleLarge?.color,
             ),
           ),
           const Spacer(),

@@ -35,7 +35,7 @@ class _TaskScreenState extends State<TaskScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.bgLight,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         title: const Text('任务'),
         elevation: 0,
@@ -127,7 +127,7 @@ class _TaskScreenState extends State<TaskScreen> {
           ),
         ),
         const SizedBox(width: 4),
-        Text(label, style: const TextStyle(fontSize: 11, color: Colors.grey)),
+        Text(label, style: TextStyle(fontSize: 11, color: Theme.of(context).textTheme.bodySmall?.color)),
       ],
     );
   }
@@ -207,9 +207,9 @@ class _TaskScreenState extends State<TaskScreen> {
             child: const Icon(Icons.task_alt, size: 64, color: AppTheme.primaryColor),
           ),
           const SizedBox(height: 24),
-          const Text('暂无任务', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppTheme.textPrimary)),
+          const Text('暂无任务', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
           const SizedBox(height: 8),
-          const Text('点击下方按钮创建第一个任务', style: TextStyle(color: AppTheme.textSecondary)),
+          const Text('点击下方按钮创建第一个任务'),
           const SizedBox(height: 24),
           ElevatedButton.icon(
             onPressed: () => _showCreateTaskDialog(context),
@@ -341,7 +341,7 @@ class _CreateTaskSheetState extends State<CreateTaskSheet> {
             const SizedBox(height: 4),
             Text(
               '父任务: ${widget.parentTaskTitle}',
-              style: TextStyle(color: Colors.grey.shade600, fontSize: 13),
+              style: TextStyle(color: Theme.of(context).textTheme.bodySmall?.color, fontSize: 13),
             ),
           ],
           const SizedBox(height: 16),

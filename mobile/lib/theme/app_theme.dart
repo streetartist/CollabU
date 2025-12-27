@@ -62,6 +62,16 @@ class AppTheme {
   static const double radiusXLarge = 24.0;
 
   // 主题数据
+  // Dark Mode Colors
+  static const Color primaryDarkBg = Color(0xFF1A202C);
+  static const Color secondaryDarkBg = Color(0xFF2D3748);
+  static const Color darkCardBg = Color(0xFF2D3748);
+  
+  static const Color textPrimaryDark = Color(0xFFF7FAFC);
+  static const Color textSecondaryDark = Color(0xFFA0AEC0);
+
+  // ... (Keep existing lightTheme)
+
   static ThemeData get lightTheme {
     return ThemeData(
       useMaterial3: true,
@@ -160,6 +170,111 @@ class AppTheme {
       ),
       dividerTheme: DividerThemeData(
         color: Colors.grey.shade200,
+        thickness: 1,
+      ),
+    );
+  }
+
+  static ThemeData get darkTheme {
+    return ThemeData(
+      useMaterial3: true,
+      brightness: Brightness.dark,
+      primaryColor: primaryColor,
+      scaffoldBackgroundColor: primaryDarkBg,
+      colorScheme: ColorScheme.dark(
+        primary: primaryColor,
+        secondary: accentColor,
+        surface: darkCardBg,
+        error: error,
+        background: primaryDarkBg,
+      ),
+      appBarTheme: const AppBarTheme(
+        elevation: 0,
+        centerTitle: true,
+        backgroundColor: Colors.transparent,
+        foregroundColor: textPrimaryDark,
+        titleTextStyle: TextStyle(
+          color: textPrimaryDark,
+          fontSize: 18,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+      cardTheme: CardTheme(
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(radiusMedium),
+        ),
+        color: darkCardBg,
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          elevation: 0,
+          backgroundColor: primaryColor,
+          foregroundColor: Colors.white,
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(radiusMedium),
+          ),
+          textStyle: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          foregroundColor: primaryColor,
+          side: const BorderSide(color: primaryColor),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(radiusMedium),
+          ),
+        ),
+      ),
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          foregroundColor: primaryLight,
+        ),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: secondaryDarkBg,
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(radiusMedium),
+          borderSide: BorderSide(color: Colors.grey.shade800),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(radiusMedium),
+          borderSide: BorderSide(color: Colors.grey.shade800),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(radiusMedium),
+          borderSide: const BorderSide(color: primaryColor, width: 2),
+        ),
+        hintStyle: const TextStyle(color: textHint),
+      ),
+      floatingActionButtonTheme: const FloatingActionButtonThemeData(
+        backgroundColor: primaryColor,
+        foregroundColor: Colors.white,
+        elevation: 4,
+      ),
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+        backgroundColor: secondaryDarkBg,
+        selectedItemColor: primaryLight,
+        unselectedItemColor: textHint,
+        type: BottomNavigationBarType.fixed,
+        elevation: 8,
+      ),
+      chipTheme: ChipThemeData(
+        backgroundColor: primaryColor.withOpacity(0.2),
+        labelStyle: const TextStyle(color: primaryLight),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(radiusSmall),
+        ),
+      ),
+      dividerTheme: DividerThemeData(
+        color: Colors.grey.shade800,
         thickness: 1,
       ),
     );

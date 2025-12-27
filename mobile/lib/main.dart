@@ -120,6 +120,8 @@ class _AppRouterState extends State<AppRouter> {
     return MaterialApp.router(
       title: 'CollabU',
       theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: ThemeMode.system,
       routerConfig: _router,
       scrollBehavior: const CustomScrollBehavior(),
     );

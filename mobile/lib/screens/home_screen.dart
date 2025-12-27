@@ -253,11 +253,11 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Container(
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Theme.of(context).cardTheme.color,
                 borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
                 boxShadow: AppTheme.cardShadow,
               ),
-              child: const Center(child: Text('暂无团队', style: TextStyle(color: AppTheme.textSecondary))),
+              child: Center(child: Text('暂无团队', style: TextStyle(color: Theme.of(context).textTheme.bodySmall?.color))),
             ),
           )
         else
@@ -284,11 +284,11 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Container(
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Theme.of(context).cardTheme.color,
                 borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
                 boxShadow: AppTheme.cardShadow,
               ),
-              child: const Center(child: Text('暂无待办任务', style: TextStyle(color: AppTheme.textSecondary))),
+              child: Center(child: Text('暂无待办任务', style: TextStyle(color: Theme.of(context).textTheme.bodySmall?.color))),
             ),
           )
         else
@@ -376,8 +376,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildDrawerItem(IconData icon, String title, VoidCallback onTap, {bool isDestructive = false}) {
     return ListTile(
-      leading: Icon(icon, color: isDestructive ? AppTheme.error : AppTheme.textSecondary),
-      title: Text(title, style: TextStyle(color: isDestructive ? AppTheme.error : AppTheme.textPrimary)),
+      leading: Icon(icon, color: isDestructive ? AppTheme.error : Theme.of(context).iconTheme.color),
+      title: Text(title, style: TextStyle(color: isDestructive ? AppTheme.error : Theme.of(context).textTheme.bodyMedium?.color)),
       onTap: onTap,
     );
   }
@@ -389,9 +389,9 @@ class _HomeScreenState extends State<HomeScreen> {
       isScrollControlled: true,
       builder: (context) => Container(
         height: MediaQuery.of(context).size.height * 0.7,
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        decoration: BoxDecoration(
+          color: Theme.of(context).scaffoldBackgroundColor,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
         ),
         child: Column(
           children: [
@@ -400,7 +400,7 @@ class _HomeScreenState extends State<HomeScreen> {
               width: 40,
               height: 4,
               decoration: BoxDecoration(
-                color: Colors.grey.shade300,
+                color: Theme.of(context).dividerColor,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -438,11 +438,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         return Container(
                           padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: Theme.of(context).cardTheme.color,
                             borderRadius: BorderRadius.circular(16),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black.withOpacity(0.05),
+                                color: Theme.of(context).shadowColor.withOpacity(0.05),
                                 blurRadius: 10,
                                 offset: const Offset(0, 4),
                               ),

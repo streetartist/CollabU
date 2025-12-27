@@ -73,9 +73,9 @@ class _TeamTimelineScreenState extends State<TeamTimelineScreen> {
           children: [
             Container(
               width: 12, height: 12,
-              decoration: const BoxDecoration(color: Colors.blue, shape: BoxShape.circle),
+              decoration: BoxDecoration(color: Theme.of(context).primaryColor, shape: BoxShape.circle),
             ),
-            if (!isLast) Container(width: 2, height: 100, color: Colors.grey.shade300),
+            if (!isLast) Container(width: 2, height: 100, color: Theme.of(context).dividerColor),
           ],
         ),
         const SizedBox(width: 12),
@@ -89,7 +89,7 @@ class _TeamTimelineScreenState extends State<TeamTimelineScreen> {
                 children: [
                   Text(item['title'] ?? '', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
                   const SizedBox(height: 4),
-                  Text(item['event_date'] ?? '', style: TextStyle(color: Colors.grey.shade600, fontSize: 12)),
+                  Text(item['event_date'] ?? '', style: TextStyle(color: Theme.of(context).textTheme.bodySmall?.color, fontSize: 12)),
                   if (item['description'] != null && item['description'].isNotEmpty) ...[
                     const SizedBox(height: 8),
                     MarkdownBody(data: item['description'], selectable: true),

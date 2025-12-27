@@ -27,7 +27,7 @@ class _TeamScreenState extends State<TeamScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.bgLight,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         title: const Text('我的团队'),
         elevation: 0,
@@ -97,9 +97,9 @@ class _TeamScreenState extends State<TeamScreen> {
             child: const Icon(Icons.groups, size: 64, color: AppTheme.primaryColor),
           ),
           const SizedBox(height: 24),
-          const Text('暂无团队', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppTheme.textPrimary)),
+          const Text('暂无团队', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
           const SizedBox(height: 8),
-          const Text('创建或加入一个团队开始协作', style: TextStyle(color: AppTheme.textSecondary)),
+          const Text('创建或加入一个团队开始协作'),
           const SizedBox(height: 24),
           ElevatedButton.icon(
             onPressed: () => _showJoinOrCreateDialog(context),
@@ -118,7 +118,7 @@ class _TeamScreenState extends State<TeamScreen> {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).cardTheme.color,
         borderRadius: BorderRadius.circular(AppTheme.radiusMedium),
         boxShadow: AppTheme.cardShadow,
       ),
@@ -159,10 +159,10 @@ class _TeamScreenState extends State<TeamScreen> {
                           Expanded(
                             child: Text(
                               team.name,
-                              style: const TextStyle(
+                                style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
-                                color: AppTheme.textPrimary,
+                                color: Theme.of(context).textTheme.titleLarge?.color,
                               ),
                             ),
                           ),
@@ -181,9 +181,9 @@ class _TeamScreenState extends State<TeamScreen> {
                         ],
                       ),
                       const SizedBox(height: 4),
-                      Text(
+                        Text(
                         team.description ?? '暂无描述',
-                        style: const TextStyle(fontSize: 13, color: AppTheme.textSecondary),
+                        style: TextStyle(fontSize: 13, color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.7)),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -201,7 +201,7 @@ class _TeamScreenState extends State<TeamScreen> {
 
   Widget _buildPopupMenu(Team team, bool isCreator) {
     return PopupMenuButton<String>(
-      icon: const Icon(Icons.more_vert, color: AppTheme.textHint),
+      icon: Icon(Icons.more_vert, color: Theme.of(context).iconTheme.color),
       onSelected: (value) {
         if (value == 'edit') {
           _showEditTeamDialog(context, team);
@@ -214,14 +214,14 @@ class _TeamScreenState extends State<TeamScreen> {
       itemBuilder: (context) => [
         if (isCreator) ...[
           const PopupMenuItem(value: 'edit', child: Text('编辑')),
-          const PopupMenuItem(
+          PopupMenuItem(
             value: 'delete',
-            child: Text('解散团队', style: TextStyle(color: Colors.red)),
+            child: Text('解散团队', style: TextStyle(color: Theme.of(context).colorScheme.error)),
           ),
         ] else ...[
-          const PopupMenuItem(
+          PopupMenuItem(
             value: 'leave',
-            child: Text('退出团队', style: TextStyle(color: Colors.red)),
+            child: Text('退出团队', style: TextStyle(color: Theme.of(context).colorScheme.error)),
           ),
         ],
       ],
@@ -305,7 +305,7 @@ class _TeamScreenState extends State<TeamScreen> {
                 }
               }
             },
-            child: const Text('解散', style: TextStyle(color: Colors.red)),
+            child: Text('解散', style: TextStyle(color: Theme.of(context).colorScheme.error)),
           ),
         ],
       ),
@@ -340,7 +340,7 @@ class _TeamScreenState extends State<TeamScreen> {
                 }
               }
             },
-            child: const Text('退出', style: TextStyle(color: Colors.red)),
+            child: Text('退出', style: TextStyle(color: Theme.of(context).colorScheme.error)),
           ),
         ],
       ),

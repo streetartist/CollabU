@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/api_service.dart';
+import '../services/socket_service.dart';
 
 class TeamChatScreen extends StatefulWidget {
   final int teamId;
@@ -19,6 +20,20 @@ class _TeamChatScreenState extends State<TeamChatScreen> {
   void initState() {
     super.initState();
     _loadMessages();
+    _initSocket();
+  }
+
+  void _initSocket() {
+    SocketService.instance.init();
+    SocketService.instance.joinTeam(widget.teamId);
+    SocketService.instance.onMessage((data) {
+      if (mounted) {
+        setState(() {
+          _messages.add(data);
+        });
+        _scrollToBottom();
+      }
+    });
   }
 
   Future<void> _loadMessages() async {
@@ -48,12 +63,9 @@ class _TeamChatScreenState extends State<TeamChatScreen> {
   Future<void> _sendMessage() async {
     if (_messageController.text.isEmpty) return;
     try {
-      await ApiService.instance.post(
-        '/teams/${widget.teamId}/messages',
-        data: {'content': _messageController.text},
-      );
+      SocketService.instance.sendMessage(widget.teamId, _messageController.text);
       _messageController.clear();
-      _loadMessages();
+      // Message will be added via socket listener
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -107,7 +119,7 @@ class _TeamChatScreenState extends State<TeamChatScreen> {
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: Colors.grey.shade100,
+                    color: Theme.of(context).cardTheme.color,
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text(msg['content'] ?? ''),
@@ -124,8 +136,8 @@ class _TeamChatScreenState extends State<TeamChatScreen> {
     return Container(
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border(top: BorderSide(color: Colors.grey.shade300)),
+        color: Theme.of(context).cardTheme.color,
+        border: Border(top: BorderSide(color: Theme.of(context).dividerColor)),
       ),
       child: Row(
         children: [
@@ -148,6 +160,8 @@ class _TeamChatScreenState extends State<TeamChatScreen> {
 
   @override
   void dispose() {
+    SocketService.instance.offMessage();
+    SocketService.instance.leaveTeam(widget.teamId);
     _messageController.dispose();
     _scrollController.dispose();
     super.dispose();

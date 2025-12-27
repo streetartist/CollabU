@@ -55,23 +55,27 @@ class _TeamCalendarScreenState extends State<TeamCalendarScreen> {
   // 继续...
 
   Widget _buildCalendarHeader() {
-    return Padding(
+    return Container(
       padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Theme.of(context).cardTheme.color,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           IconButton(
-            icon: const Icon(Icons.chevron_left),
+            icon: Icon(Icons.chevron_left, color: Theme.of(context).iconTheme.color),
             onPressed: () => setState(() {
               _focusedMonth = DateTime(_focusedMonth.year, _focusedMonth.month - 1);
             }),
           ),
           Text(
             '${_focusedMonth.year}年${_focusedMonth.month}月',
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Theme.of(context).textTheme.titleLarge?.color),
           ),
           IconButton(
-            icon: const Icon(Icons.chevron_right),
+            icon: Icon(Icons.chevron_right, color: Theme.of(context).iconTheme.color),
             onPressed: () => setState(() {
               _focusedMonth = DateTime(_focusedMonth.year, _focusedMonth.month + 1);
             }),
@@ -90,7 +94,7 @@ class _TeamCalendarScreenState extends State<TeamCalendarScreen> {
         child: Center(
           child: Text(d, style: TextStyle(
             fontWeight: FontWeight.bold,
-            color: d == '六' || d == '日' ? Colors.red.shade300 : Colors.grey,
+            color: d == '六' || d == '日' ? Theme.of(context).colorScheme.error : Theme.of(context).textTheme.bodyMedium?.color,
           )),
         ),
       )).toList(),
@@ -146,18 +150,22 @@ class _TeamCalendarScreenState extends State<TeamCalendarScreen> {
     return InkWell(
       onTap: () => setState(() => _selectedDate = date),
       child: Container(
-        margin: const EdgeInsets.all(0),
+        margin: const EdgeInsets.all(2),
         decoration: BoxDecoration(
-          color: isSelected ? Colors.blue.withOpacity(0.1) : (isToday ? Colors.blue.withOpacity(0.05) : null),
-          border: Border.all(color: Colors.grey.withOpacity(0.1)),
+          color: isSelected 
+              ? Theme.of(context).primaryColor 
+              : (isToday ? Theme.of(context).primaryColor.withOpacity(0.1) : Theme.of(context).cardTheme.color),
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: isSelected ? Colors.transparent : Theme.of(context).dividerColor.withOpacity(0.5)),
+          boxShadow: isSelected ? [BoxShadow(color: Theme.of(context).primaryColor.withOpacity(0.4), blurRadius: 4, offset: const Offset(0, 2))] : null,
         ),
         child: Stack(
           children: [
             Align(
               alignment: Alignment.topCenter,
               child: Text('$day', style: TextStyle(
-                color: isSelected ? Colors.blue : null,
-                fontWeight: isToday ? FontWeight.bold : null,
+                color: isSelected ? Colors.white : Theme.of(context).textTheme.bodyMedium?.color,
+                fontWeight: isToday || isSelected ? FontWeight.bold : null,
                 fontSize: 12,
               )),
             ),
@@ -187,7 +195,7 @@ class _TeamCalendarScreenState extends State<TeamCalendarScreen> {
     return Container(
       height: 150,
       decoration: BoxDecoration(
-        border: Border(top: BorderSide(color: Colors.grey.shade300)),
+        border: Border(top: BorderSide(color: Theme.of(context).dividerColor)),
       ),
       child: tasks.isEmpty
           ? const Center(child: Text('当天无任务'))

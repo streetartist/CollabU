@@ -49,7 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 32),
@@ -81,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   style: TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.w800,
-                    color: Colors.grey.shade900,
+                    color: Theme.of(context).textTheme.titleLarge?.color,
                     letterSpacing: -0.5,
                   ),
                   textAlign: TextAlign.center,
@@ -206,35 +206,44 @@ class _LoginScreenState extends State<LoginScreen> {
     VoidCallback? onTogglePassword,
     String? Function(String?)? validator,
   }) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.grey.shade50,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey.shade200),
+    return TextFormField(
+      controller: controller,
+      obscureText: obscureText,
+      validator: validator,
+      style: TextStyle(
+        fontWeight: FontWeight.w500,
+        color: Theme.of(context).textTheme.bodyLarge?.color,
       ),
-      child: TextFormField(
-        controller: controller,
-        obscureText: obscureText,
-        validator: validator,
-        style: const TextStyle(fontWeight: FontWeight.w500),
-        decoration: InputDecoration(
-          labelText: label,
-          labelStyle: TextStyle(color: Colors.grey.shade500),
-          prefixIcon: Icon(icon, color: Colors.grey.shade400, size: 22),
-          suffixIcon: isPassword
-              ? IconButton(
-                  icon: Icon(
-                    obscureText ? Icons.visibility_outlined : Icons.visibility_off_outlined,
-                    color: Colors.grey.shade400,
-                    size: 22,
-                  ),
-                  onPressed: onTogglePassword,
-                )
-              : null,
-          border: InputBorder.none,
-          contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-          floatingLabelStyle: TextStyle(color: AppTheme.primaryColor, fontWeight: FontWeight.w600),
+      decoration: InputDecoration(
+        labelText: label,
+        labelStyle: TextStyle(color: Theme.of(context).textTheme.bodySmall?.color),
+        prefixIcon: Icon(icon, color: Theme.of(context).iconTheme.color, size: 22),
+        suffixIcon: isPassword
+            ? IconButton(
+                icon: Icon(
+                  obscureText ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+                  color: Theme.of(context).iconTheme.color,
+                  size: 22,
+                ),
+                onPressed: onTogglePassword,
+              )
+            : null,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: BorderSide(color: Theme.of(context).dividerColor),
         ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: BorderSide(color: Theme.of(context).dividerColor),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: BorderSide(color: Theme.of(context).primaryColor, width: 2),
+        ),
+        filled: true,
+        fillColor: Theme.of(context).inputDecorationTheme.fillColor,
+        contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+        floatingLabelStyle: TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.w600),
       ),
     );
   }

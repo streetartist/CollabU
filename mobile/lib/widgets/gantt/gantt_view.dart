@@ -118,8 +118,8 @@ class _GanttViewState extends State<GanttView> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
-        border: Border(bottom: BorderSide(color: Colors.grey.shade300)),
+        color: Theme.of(context).cardTheme.color,
+        border: Border(bottom: BorderSide(color: Theme.of(context).dividerColor)),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -203,7 +203,7 @@ class _GanttViewState extends State<GanttView> {
         child: Container(
           width: _taskColumnWidth,
           decoration: BoxDecoration(
-            border: Border(right: BorderSide(color: Colors.grey.shade300)),
+            border: Border(right: BorderSide(color: Theme.of(context).dividerColor)),
           ),
           child: Column(
             children: [
@@ -211,8 +211,8 @@ class _GanttViewState extends State<GanttView> {
                 height: 50,
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: Colors.grey.shade100,
-                  border: Border(bottom: BorderSide(color: Colors.grey.shade300)),
+                  color: Theme.of(context).colorScheme.surface,
+                  border: Border(bottom: BorderSide(color: Theme.of(context).dividerColor)),
                 ),
                 child: const Align(
                   alignment: Alignment.centerLeft,
@@ -243,8 +243,8 @@ class _GanttViewState extends State<GanttView> {
       child: Container(
         height: _rowHeight,
         decoration: BoxDecoration(
-          color: isChild ? Colors.grey.shade50 : null,
-          border: Border(bottom: BorderSide(color: Colors.grey.shade200)),
+          color: isChild ? Theme.of(context).scaffoldBackgroundColor : Theme.of(context).cardTheme.color,
+          border: Border(bottom: BorderSide(color: Theme.of(context).dividerColor)),
         ),
         child: Row(
           children: [
@@ -279,7 +279,7 @@ class _GanttViewState extends State<GanttView> {
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: task.hasSubtasks ? FontWeight.w600 : FontWeight.normal,
-                  color: isChild ? Colors.grey.shade700 : Colors.black87,
+                  color: isChild ? Theme.of(context).textTheme.bodyMedium?.color : Theme.of(context).textTheme.bodyLarge?.color,
                 ),
               ),
             ),
@@ -639,7 +639,7 @@ class _GanttViewState extends State<GanttView> {
       bottom: 0,
       child: Container(
         width: 2,
-        color: Colors.red.withValues(alpha: 0.7),
+        color: Theme.of(context).primaryColor.withOpacity(0.7),
       ),
     );
   }
@@ -670,11 +670,12 @@ class _GridPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    // Use fixed low-opacity colors for grid lines to work on both backgrounds
     final paint = Paint()
-      ..color = Colors.grey.shade200
+      ..color = Colors.grey.withOpacity(0.2)
       ..strokeWidth = 0.5;
 
-    final weekendPaint = Paint()..color = Colors.grey.shade100;
+    final weekendPaint = Paint()..color = Colors.grey.withOpacity(0.05);
 
     for (int i = 0; i < totalDays; i++) {
       final date = startDate.add(Duration(days: i));

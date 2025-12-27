@@ -75,7 +75,7 @@ class _TeamDetailScreenState extends State<TeamDetailScreen> {
           onPressed: _showInviteDialog,
         ),
         IconButton(
-          icon: const Icon(Icons.exit_to_app, color: Colors.red),
+          icon: Icon(Icons.exit_to_app, color: Theme.of(context).colorScheme.error),
           tooltip: '退出团队',
           onPressed: _confirmLeaveTeam,
         ),
@@ -128,7 +128,8 @@ class _TeamDetailScreenState extends State<TeamDetailScreen> {
               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, letterSpacing: 2),
             ),
             const SizedBox(height: 8),
-            const Text('扫描二维码或使用代码加入团队', style: TextStyle(color: Colors.grey)),
+            const SizedBox(height: 8),
+            Text('扫描二维码或使用代码加入团队', style: TextStyle(color: Theme.of(context).textTheme.bodySmall?.color)),
           ],
         ),
         actions: [
@@ -240,7 +241,7 @@ class _TeamDetailScreenState extends State<TeamDetailScreen> {
                 Navigator.pop(context);
               }
             },
-            child: const Text('退出', style: TextStyle(color: Colors.red)),
+            child: Text('退出', style: TextStyle(color: Theme.of(context).colorScheme.error)),
           ),
         ],
       ),

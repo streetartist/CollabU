@@ -17,8 +17,8 @@ class GanttHeader extends StatelessWidget {
     return Container(
       height: 50,
       decoration: BoxDecoration(
-        color: Colors.grey.shade100,
-        border: Border(bottom: BorderSide(color: Colors.grey.shade300)),
+        color: Theme.of(context).cardTheme.color,
+        border: Border(bottom: BorderSide(color: Theme.of(context).dividerColor)),
       ),
       child: Row(
         children: List.generate(totalDays, (index) {
@@ -31,12 +31,12 @@ class GanttHeader extends StatelessWidget {
             width: dayWidth,
             decoration: BoxDecoration(
               color: isToday
-                  ? Colors.blue.withValues(alpha: 0.1)
+                  ? Theme.of(context).primaryColor.withOpacity(0.1)
                   : isWeekend
-                      ? Colors.grey.shade200
+                      ? Theme.of(context).dividerColor.withOpacity(0.3)
                       : null,
               border: Border(
-                right: BorderSide(color: Colors.grey.shade300, width: 0.5),
+                right: BorderSide(color: Theme.of(context).dividerColor, width: 0.5),
               ),
             ),
             child: Column(
@@ -47,14 +47,14 @@ class GanttHeader extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: isToday ? FontWeight.bold : FontWeight.normal,
-                    color: isToday ? Colors.blue : Colors.black87,
+                    color: isToday ? Theme.of(context).primaryColor : Theme.of(context).textTheme.bodyMedium?.color,
                   ),
                 ),
                 Text(
                   _getWeekdayShort(date.weekday),
                   style: TextStyle(
                     fontSize: 10,
-                    color: isWeekend ? Colors.red.shade300 : Colors.grey,
+                    color: isWeekend ? Colors.red.shade300 : Theme.of(context).textTheme.bodySmall?.color,
                   ),
                 ),
               ],

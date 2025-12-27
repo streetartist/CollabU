@@ -29,7 +29,7 @@ class ProjectGanttChart extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildHeader(),
+            _buildHeader(context),
             ...sortedProjects.map((p) => _buildProjectRow(context, p)),
           ],
         ),
@@ -37,16 +37,16 @@ class ProjectGanttChart extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader() {
+  Widget _buildHeader(BuildContext context) {
     return Container(
       height: 40,
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      color: Colors.grey.shade200,
+      color: Theme.of(context).cardTheme.color,
       child: Row(
-        children: const [
-          SizedBox(width: 150, child: Text('项目名称', style: TextStyle(fontWeight: FontWeight.bold))),
-          SizedBox(width: 100, child: Text('状态', style: TextStyle(fontWeight: FontWeight.bold))),
-          SizedBox(width: 200, child: Text('时间轴', style: TextStyle(fontWeight: FontWeight.bold))),
+        children: [
+          SizedBox(width: 150, child: Text('项目名称', style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).textTheme.bodyMedium?.color))),
+          SizedBox(width: 100, child: Text('状态', style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).textTheme.bodyMedium?.color))),
+          SizedBox(width: 200, child: Text('时间轴', style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).textTheme.bodyMedium?.color))),
         ],
       ),
     );
@@ -64,8 +64,8 @@ class ProjectGanttChart extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      decoration: const BoxDecoration(
-        border: Border(bottom: BorderSide(color: Colors.grey, width: 0.5)),
+      decoration: BoxDecoration(
+        border: Border(bottom: BorderSide(color: Theme.of(context).dividerColor, width: 0.5)),
       ),
       child: Row(
         children: [
@@ -93,10 +93,10 @@ class ProjectGanttChart extends StatelessWidget {
           SizedBox(
             width: 200,
             child: hasDates
-                ? _buildBar(start, end)
+                ? _buildBar(context, start, end)
                 : Text(
                     dateRange,
-                    style: const TextStyle(color: Colors.grey, fontSize: 12),
+                    style: TextStyle(color: Theme.of(context).textTheme.bodySmall?.color, fontSize: 12),
                   ),
           ),
         ],
@@ -104,7 +104,7 @@ class ProjectGanttChart extends StatelessWidget {
     );
   }
 
-  Widget _buildBar(DateTime start, DateTime end) {
+  Widget _buildBar(BuildContext context, DateTime start, DateTime end) {
     // This is a simplified "bar" visualization
     // In a real Gantt, we'd map dates to X-coordinates.
     // Here we just show a visual bar and the text.
