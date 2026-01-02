@@ -175,6 +175,18 @@ CollabU/
 └── ...
 ```
 
+## 使用zeabur部署后端
+https://zeabur.com/
+
+新建项目 - 选择印尼 - 从GitHub仓库部署 - 选择你fork的仓库
+
+随后点击服务 - 设置 - 根目录 填入 /backend
+
+在zeabur准备好你的image之后, 点击服务状态中的 - 命令 - 输入`flask db upgrade` 回车
+
+点击 网络 - 公网访问 - 生成域名(自定域名)  配置你希望使用的域名
+
+
 ---
 
 <span id="贡献指南"></span>
