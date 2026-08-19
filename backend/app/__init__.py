@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
@@ -56,5 +56,16 @@ def create_app(config_class=Config):
     @app.route('/uploads/<path:filename>')
     def uploaded_file(filename):
         return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
+    # 健康检查接口：验证进程存活 + 数据库连通
+    from sqlalchemy import text
+
+    @app.route('/api/health')
+    def health():
+        try:
+            db.session.execute(text('SELECT 1'))
+            return jsonify({'status': 'ok'}), 200
+        except Exception:
+            return jsonify({'status': 'error', 'message': 'database unavailable'}), 503
 
     return app

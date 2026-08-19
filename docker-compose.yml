@@ -1,0 +1,87 @@
+# CollabU Docker Compose 部署
+# 服务：mysql (数据库) + backend (Flask API) + frontend (Nginx 静态站 + 反向代理)
+#
+# 用法：
+#   1. cp .env.example .env 并按需修改密钥
+#   2. docker compose up -d --build
+#   3. 访问 http://<服务器IP> （80 端口）
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: collabu-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      TZ: Asia/Shanghai
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u$${MYSQL_USER}", "-p$${MYSQL_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    networks:
+      - collabu-net
+
+  backend:
+    build:
+      context: ./backend
+    container_name: collabu-backend
+    restart: unless-stopped
+    environment:
+      FLASK_APP: run.py
+      FLASK_ENV: production
+      SECRET_KEY: ${SECRET_KEY}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      # 指向 compose 中的 mysql 服务，使用其默认 3306 端口
+      DATABASE_URL: mysql+pymysql://${MYSQL_USER}:${MYSQL_PASSWORD}@mysql:3306/${MYSQL_DATABASE}
+    volumes:
+      - uploads_data:/app/uploads
+      - instance_data:/app/instance
+    depends_on:
+      mysql:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:5000/api/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - collabu-net
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: collabu-frontend
+    restart: unless-stopped
+    ports:
+      - "${WEB_PORT:-80}:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1/"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    networks:
+      - collabu-net
+
+volumes:
+  mysql_data:
+  uploads_data:
+  instance_data:
+
+networks:
+  collabu-net:
+    driver: bridge

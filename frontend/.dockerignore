@@ -1,0 +1,12 @@
+# CollabU Frontend - .dockerignore
+# 防止将本地 node_modules/构建产物/缓存打入镜像
+# 注意：nginx.conf 是镜像所需，不能排除
+
+node_modules/
+dist/
+.env
+.env.local
+.env.*.local
+*.log
+npm-debug.log*
+Dockerfile

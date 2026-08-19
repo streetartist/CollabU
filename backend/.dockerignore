@@ -1,0 +1,16 @@
+# CollabU Backend - .dockerignore
+# 防止将本地环境/运行数据/缓存打入镜像
+
+__pycache__/
+*.py[cod]
+*.log
+.env
+.venv
+venv/
+instance/
+uploads/
+*.db
+*.zip
+migrations/__pycache__/
+test_api_check.py
+Dockerfile

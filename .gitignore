@@ -8,6 +8,8 @@ Thumbs.db
 
 # Root Artifacts
 CollabU.zip
+# Flutter Windows / CMake 在仓库根目录生成的构建产物
+/build/
 
 # ----------------------
 # Backend (Python/Flask)

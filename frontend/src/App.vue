@@ -12,7 +12,7 @@
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import NavBar from './components/NavBar.vue'
-import Sidebar from './components/Sidebar.vue'
+import Sidebar from './components/SideBar.vue'
 
 const route = useRoute()
 const showNavBar = computed(() => {
